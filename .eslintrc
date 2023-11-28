@@ -1,0 +1,18 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "google"],
+  "rules": {
+      "semi": "off",
+      "quotes": "off",
+      "linebreak-style": "off",
+      "indent": "off",
+      "no-trailing-spaces": "off",
+      "arrow-parens": "off",
+      "comma-dangle": "off",
+      "eol-last": "off"
+  }
+}
