@@ -12,10 +12,14 @@ module.exports = {
         filename: "bundle.[hash].js",
         path: path.resolve(__dirname, "./dist")
     },
-    alias: {
-        "@": path.resolve(__dirname, 'src'),
-        "@core": path.resolve(__dirname, "src/core")
+    resolve: {
+        extensions: [".js"],
+        alias: {
+            "@": path.resolve(__dirname, 'src'),
+            "@core": path.resolve(__dirname, "src/core")
+        },
     },
+   
     plugins: [
         new CleanWebpackPlugin(),
         new HTMLWebpackPlugin({
@@ -32,5 +36,5 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "bundle.[hash].css"
         })
-    ]
+    ],
 }
