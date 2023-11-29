@@ -19,9 +19,6 @@ const jsLoaders = () => {
             }
         }
     ]
-    if (isDev) {
-        loaders.push("esling-loader")
-    }
     return loaders
 }
 

@@ -2,5 +2,32 @@
 @import "mixins";
 
 .excel__header {
-
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+  width: 100%;
+  heigth: $header-height;
+  padding: 8px 4px 0 4px;
+  background: lightblue;
+  & .input {
+    margin: 0;
+    padding: 2px 7px;
+    color: black;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    height: 20px;
+    font-size: 18px;
+    line-height: 22px;
+    outline: none;
+    &:focus {
+      border: 2px solid #1a73e8;
+    }
+    &:hover {
+      border: 2px solid $border-color;
+    }
+  }
+  & .button {
+    @include button(red)
+  }
 }
