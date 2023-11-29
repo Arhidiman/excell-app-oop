@@ -15,5 +15,8 @@
       "comma-dangle": "off",
       "eol-last": "off",
       "require-jsdoc": "off"
+  },
+  "parserOptions": {
+    "sourceType": "module"
   }
 }
