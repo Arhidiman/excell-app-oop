@@ -13,6 +13,7 @@
       "no-trailing-spaces": "off",
       "arrow-parens": "off",
       "comma-dangle": "off",
-      "eol-last": "off"
+      "eol-last": "off",
+      "require-jsdoc": "off"
   }
 }
