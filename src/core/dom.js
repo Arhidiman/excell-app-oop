@@ -1,10 +1,13 @@
 class DOM {
     constructor(selector) {
+        // console.log(typeof selector )
         this.$el = typeof selector === "string"
         ? document.querySelector(selector)
-        : selector
+        : selector;
+        console.log("selector", selector)
     }
     html(html) {
+        // console.log(typeof html)
         if (typeof html === "string") {
             this.$el.innerHTML = html
             return this
@@ -25,9 +28,7 @@ class DOM {
     }
 }
 
-export function $(selector) {
-    return new DOM(selector)
-}
+export const $ = (selector) => new DOM(selector)
 
 $.create = (tagName, classes="") => {
     const el = document.createElement(tagName)
