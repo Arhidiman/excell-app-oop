@@ -14,7 +14,8 @@
       "arrow-parens": "off",
       "comma-dangle": "off",
       "eol-last": "off",
-      "require-jsdoc": "off"
+      "require-jsdoc": "off",
+      "operator-linebreak": "off"
   },
   "parserOptions": {
     "sourceType": "module"
