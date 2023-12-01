@@ -10,11 +10,10 @@ export class Excel {
         $root.$el.classList.add("excel")
         this.components = this.components.map(Component => {
             const $el = $.create("div", Component.className)
-            const component = new Component($el.$el)
-            console.log($el)
-            console.log(component)
+            const component = new Component($el)
             $el.html(component.toHTML())
             $root.append($el)
+            return component
         })
         return $root
     }

@@ -2,7 +2,12 @@ import {ExcelComponent} from "@/core/ExcelComponent";
 
 export class Table extends ExcelComponent {
     static className = "excel__table"
-
+    constructor($root) {
+        super($root, {
+            name: "Formula",
+            listeners: []
+        })
+    }
     toHTML() {
         // const element = document.createElement("div")
         // element.innerHTML = "Table"

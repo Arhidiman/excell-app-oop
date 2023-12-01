@@ -4,7 +4,7 @@ class DOM {
         this.$el = typeof selector === "string"
         ? document.querySelector(selector)
         : selector;
-        console.log("selector", selector)
+        // console.log("selector", selector)
     }
     html(html) {
         // console.log(typeof html)
@@ -18,7 +18,9 @@ class DOM {
         this.html('')
         return this
     }
-
+    on(eventType, callback) {
+        this.$el.addEventListener(eventType, callback)
+    }
     append(node) {
        if (Element.prototype.append) {
            this.$el.append(node.$el)

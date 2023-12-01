@@ -2,7 +2,12 @@ import {ExcelComponent} from "@/core/ExcelComponent";
 
 export class Toolbar extends ExcelComponent {
     static className = "excel__toolbar"
-
+    constructor($root) {
+        super($root, {
+            name: "Formula",
+            listeners: []
+        })
+    }
     toHTML() {
         // const element = document.createElement("div")
         // element.innerHTML = "Toolbar"
