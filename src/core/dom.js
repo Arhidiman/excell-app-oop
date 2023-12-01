@@ -21,6 +21,11 @@ class DOM {
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback)
     }
+
+    off(eventType, callback) {
+        console.log("off method works")
+        this.$el.removeEventListener(eventType, callback)
+    }
     append(node) {
        if (Element.prototype.append) {
            this.$el.append(node.$el)
