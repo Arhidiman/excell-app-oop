@@ -6,6 +6,7 @@
     left: 0;
     right: 0;
     top: $header-height + $toolbar-height + $formula-height;
+    overflow-x: scroll;
     .row {
         display: flex;
         min-height: 20px;
