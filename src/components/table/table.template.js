@@ -8,14 +8,22 @@ const createCell = (content) => {
 }
 
 const createCol = (content) => {
-    return `<div class="column">${content}</div>`
+    return `
+        <div class="column">
+            ${content}
+            <div class="col-resize"></div>
+        </div>
+    `
 }
 
 const createRow = (info, data) => {
     console.log(info)
     return `
         <div class="row">
-            <div class="row-info">${info}</div>
+            <div class="row-info">
+                ${info}
+                ${info ? `<div class="row-resize"></div>` : ""}
+            </div>
             <div class="row-data">${data}</div>
         </div>
     `
