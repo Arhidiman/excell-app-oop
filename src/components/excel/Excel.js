@@ -23,6 +23,9 @@ export class Excel {
     }
     render() {
         this.$el.append(this.getRoot().$el)
-        this.components.forEach(component => component.init())
+        this.components.forEach((component, i) => {
+            console.log(i)
+            component.init()
+        })
     }
 }

@@ -3,35 +3,37 @@ const CODES = {
     B: 90
 }
 
-const createCell = (content) => {
-    return `<div class="cell" contenteditable="">${content}</div>`
+const createCell = (content, i) => {
+    const dataSymbol = fromChar("", i)
+    // console.log(i, dataSymbol)
+    return `<div class="cell" contenteditable="" data-col="${dataSymbol}" draggable="false">${content}</div>`
 }
 
 const createCol = (content) => {
     return `
         <div class="column">
             ${content}
-            <div class="col-resize"></div>
+            <div class="col-resize" data-resize="col" draggable="false"></div>
         </div>
     `
 }
 
 const createRow = (info, data) => {
-    console.log(info)
     return `
         <div class="row">
-            <div class="row-info">
+            <div class="row-info" draggable="false">
                 ${info}
-                ${info ? `<div class="row-resize"></div>` : ""}
+                ${info ? `<div class="row-resize" data-resize="row" draggable="false"></div>` : ""}
             </div>
-            <div class="row-data">${data}</div>
+            <div class="row-data" draggable="false">${data}</div>
         </div>
     `
 }
 
-const fromChar = (num, i) => String.fromCharCode(CODES.A + i + 1)
+const fromChar = (num, i, a) => String.fromCharCode(CODES.A + i)
+
 export const createTable = (rowsCount = 20) => {
-    const colsCount = CODES.B - CODES.A
+    const colsCount = CODES.B - CODES.A + 1
 
     const tableHeaderCells = new Array(colsCount)
         .fill('')
@@ -40,7 +42,8 @@ export const createTable = (rowsCount = 20) => {
         .join('')
 
     const tableBodyCells = new Array(colsCount)
-        .fill(createCell(""))
+        .fill("")
+        .map(createCell)
         .join((""))
 
     const rows = []

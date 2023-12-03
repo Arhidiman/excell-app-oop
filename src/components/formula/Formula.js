@@ -21,6 +21,10 @@ export class Formula extends ExcelComponent {
 
     onInput(event) {
         console.log(this.$root)
-        console.log("Formula input" , event)
+        console.log("Formula input" ,event)
+    }
+
+    onClick() {
+        console.log("click")
     }
 }
