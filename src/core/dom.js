@@ -33,6 +33,20 @@ class DOM {
            this.$el.appendChild((node.$el))
        }
     }
+
+    getCoords() {
+        return this.$el.getBoundingClientRect()
+    }
+
+    findAll(selector) {
+        console.log("selector", selector)
+        console.log(this.$el)
+        console.log(this.$el.querySelectorAll(selector))
+        return this.$el.querySelectorAll(selector)
+    }
+    css(styles = {}) {
+        Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
+    }
 }
 
 export const $ = (selector) => new DOM(selector)

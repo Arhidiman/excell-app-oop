@@ -22,19 +22,18 @@
         &:hover {
             cursor: row-resize;
         }
-        &.row-resize-indicator {
-            &:after {
-                position: relative;
-                top: 1px;
-                content: "";
-                right: $info-cell-width;
-                width: 100vw;
-                height: 2px;
-                background: blue;
-                display: block;
-                //position: fixed;
-            }
-        }
+        //&.row-resize-indicator { //полоса ресайза
+        //    &:after {
+        //        position: relative;
+        //        top: 1px;
+        //        content: "";
+        //        right: $info-cell-width;
+        //        width: 100vw;
+        //        height: 2px;
+        //        background: blue;
+        //        display: block;
+        //    }
+        //}
     }
     .col-resize {
         top: 0;

@@ -1,5 +1,6 @@
 import {ExcelComponent} from "@/core/ExcelComponent";
 import {createTable} from "@/components/table/table.template";
+import {$} from "@/core/dom"
 
 export class Table extends ExcelComponent {
     static className = "excel__table"
@@ -8,84 +9,86 @@ export class Table extends ExcelComponent {
             name: "Table",
             listeners: ["mousedown", "mousemove", 'mouseup']
         })
-        this.isMouseDown = false
-        this.resizeElement = null
-        this.startX = null
-        this.endX = null
-        this.startY = null
-        this.endY = null
-        this.colResize = null
-        this.rowResize = null
+        console.log(this.$root)
     }
     toHTML() {
-        // const element = document.createElement("div")
-        // element.innerHTML = "Table"
         return createTable(50)
     }
 
     onMousedown(event) {
-        this.isMouseDown = true
-        if (event.target.dataset.resize)  {
-            // this.resizeElement = event.target.parentNode
-        }
-        switch (event.target.dataset.resize) {
-            case "col": {
-                this.resizeElement = event.target.parentNode
-                event.target.classList.add('col-resize-indicator')
-                this.startX = event.clientX
-                this.colResize = event.target
-                console.log(this.colResize)
-                const colSelector = `[data-col=${this.resizeElement.textContent.trim()}]`
-                this.colElements = document.querySelectorAll(colSelector)
-            } break
-            case "row": {
-                this.resizeElement = event.target.parentNode.parentNode
-                console.log(this.resizeElement)
-                event.target.classList.add('row-resize-indicator')
-                this.startY = event.clientY
-                this.rowResize = event.target
+        console.log(this.$root) // TODO: выяснить почему $root равно undefined
+        if (event.target.dataset.resize) {
+            const resizer = $(event.target)
+
+            const type = event.target.dataset.resize
+            const startX = event.clientX
+            const startY = event.clientY
+            const resizableElement = $(resizer.$el.closest(`[data-type="resizable"]`))
+            const colSelector = `[data-col=${resizableElement.$el.textContent.trim()}]`
+
+            switch (type) {
+                case "col": {
+                    // event.target.classList.add('col-resize-indicator') // Вариант полоса ресайза на css
+                    resizer.css({background: "blue", height: "100vh"})
+                } break
+                case "row": {
+                    // event.target.classList.add('row-resize-indicator')
+                    resizer.css({background: "blue", width: "300vw"})
+                }
+            }
+
+            document.onmousemove = (event) => {
+                // console.log(resizableElement)
+                switch (type) {
+                    case "col": {
+                        const resizerPosition = event.clientX - resizableElement.getCoords().x
+                        console.log('col resize', resizerPosition)
+
+                        resizer.css({left: `${resizerPosition}px`})
+                    } break
+                    case "row": {
+                        const resizerPosition = event.clientY - resizableElement.getCoords().y
+                        resizer.css({top: `${resizerPosition}px`})
+                    }
+                }
+            }
+
+            document.onmouseup = (event) => {
+                resizer.css({background: "transparent", heigth: "24px"})
+                switch (type) {
+                    case "col": {
+                        console.log('resize col')
+                        const endX = event.clientX
+                        const deltaWidth = endX - startX
+                        const resizeElementStartWidth = resizableElement.$el.offsetWidth
+                        const resizeElementEndWidth = resizeElementStartWidth + deltaWidth
+                        const colElements = document.querySelectorAll(colSelector)
+                        // const colElements = this.$root.findAll(colSelector) // TODO: выяснить почему $root равно undefined
+                        console.log(this.$root)
+
+                        resizableElement.css({width: `${resizeElementEndWidth}px`})
+                        colElements.forEach(element => element.style.width = `${resizeElementEndWidth}px`)
+                    } break
+                    case "row": {
+                        console.log('resize row')
+                        const endY = event.clientY
+                        const deltaHeight = endY - startY
+                        const resizeElementStartHeight = resizableElement.$el.offsetHeight
+                        const resizeElementEndHeight = resizeElementStartHeight + deltaHeight
+                        resizer.$el.classList.remove("row-resize-indicator")
+                        resizableElement.css({height: `${resizeElementEndHeight}px`})
+                    }
+                }
+                document.onmousemove = null
             }
         }
     }
+
     onMousemove(event) {
-        if (this.isMouseDown) {
-            //перемещение линии колонки
-            if (this.colResize) {
-                this.colResize.style.left = `${event.clientX - this.resizeElement.getBoundingClientRect().x}px`
-            }
-            //перемещение линии строки
-            if (this.rowResize) {
-                this.rowResize.style.top = `${event.clientY - this.resizeElement.getBoundingClientRect().y}px`
-            }
-        }
+
     }
+
     onMouseup(event) {
 
-        //ресайз колонки
-        if(this.colResize) {
-            console.log('resize col')
-            this.endX = event.clientX
-            const deltaWidth = this.endX - this.startX
-            const resizeElementStartWidth = this.resizeElement.offsetWidth
-            const resizeElementEndWidth = resizeElementStartWidth + deltaWidth
-            this.colResize.classList.remove("col-resize-indicator")
-            this.resizeElement.style.width = `${resizeElementEndWidth}px`
-            this.colElements.forEach(element => element.style.width = `${resizeElementEndWidth}px`)
-        }
-
-        //ресайз строки
-        if(this.rowResize) {
-            console.log('resize row')
-            this.endY = event.clientY
-            const deltaHeight = this.endY - this.startY
-            const resizeElementStartHeight = this.resizeElement.offsetHeight
-            const resizeElementEndHeight = resizeElementStartHeight + deltaHeight
-            this.rowResize.classList.remove("row-resize-indicator")
-            this.resizeElement.style.height = `${resizeElementEndHeight}px`
-        }
-        this.isMouseDown = false
-        this.resizeElement = null
-        this.colResize = null
-        this.rowResize = null
     }
 }

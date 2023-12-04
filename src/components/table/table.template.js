@@ -11,7 +11,7 @@ const createCell = (content, i) => {
 
 const createCol = (content) => {
     return `
-        <div class="column">
+        <div class="column" data-type="resizable">
             ${content}
             <div class="col-resize" data-resize="col" draggable="false"></div>
         </div>
@@ -20,7 +20,7 @@ const createCol = (content) => {
 
 const createRow = (info, data) => {
     return `
-        <div class="row">
+        <div class="row" data-type="resizable">
             <div class="row-info" draggable="false">
                 ${info}
                 ${info ? `<div class="row-resize" data-resize="row" draggable="false"></div>` : ""}
