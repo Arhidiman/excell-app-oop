@@ -6,7 +6,7 @@ const CODES = {
 const createCell = (content, i) => {
     const dataSymbol = fromChar("", i)
     // console.log(i, dataSymbol)
-    return `<div class="cell" contenteditable="" data-col="${dataSymbol}" draggable="false">${content}</div>`
+    return `<div class="cell" contenteditable="" data-col="${dataSymbol}" data-id="${dataSymbol}:${i+1}" draggable="false">${content}</div>`
 }
 
 const createCol = (content) => {

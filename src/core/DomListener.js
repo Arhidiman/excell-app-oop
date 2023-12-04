@@ -7,7 +7,6 @@ export class DomListener {
         }
         this.$root = $root
         this.listeners = listeners
-        // this.onInput = () => console.log('input !!!!!')
     }
 
     initDomListeners() {
@@ -17,10 +16,8 @@ export class DomListener {
             if (!this[method]) {
                 throw new Error(`Method ${method} does not exist in ${name} Component`)
             }
-            // this[method] = this[method].bind(this)
-            this.$root.on(listener, this[method])
+            this.$root.on(listener, this[method].bind(this))
         })
-        // console.log(this.listeners)
     }
 
     removeDomListeners() {

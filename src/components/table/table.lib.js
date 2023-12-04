@@ -32,7 +32,6 @@ export const resizeCol = (event, resizableElement, colSelector, startX) => {
     const resizeElementStartWidth = resizableElement.$el.offsetWidth
     const resizeElementEndWidth = resizeElementStartWidth + deltaWidth
     const colElements = document.querySelectorAll(colSelector)
-    // const colElements = this.$root.findAll(colSelector) // TODO: выяснить почему $root равно undefined
     console.log(resizeElementEndWidth)
 
     resizableElement.css({width: `${resizeElementEndWidth}px`})

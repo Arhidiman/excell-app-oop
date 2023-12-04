@@ -10,7 +10,6 @@ export class Excel {
         $root.$el.classList.add("excel")
         this.components = this.components.map(Component => {
             const $el = $.create("div", Component.className)
-            // console.log($el)
             const component = new Component($el)
             if (component.name === "Formula") {
                 window['c' + component.name] = component
