@@ -3,15 +3,30 @@ const CODES = {
     B: 90
 }
 
-const createCell = (content, i) => {
-    const dataSymbol = fromChar("", i)
-    // console.log(i, dataSymbol)
-    return `<div class="cell" contenteditable="" data-col="${dataSymbol}" data-id="${dataSymbol}:${i+1}" draggable="false">${content}</div>`
+// const createCell = (row, col) => {
+//     return `<div class="cell" contenteditable="" data-col="${col}" data-id="${row}:${col}" draggable="false"></div>`
+// }
+
+function createCell(row) {
+    return function(_, col) {
+        return `
+            <div 
+                class="cell" 
+                contenteditable="" 
+                data-type="cell"
+                data-col="${col}" 
+                data-id="${row}:${col}" 
+                draggable="false"
+            >
+            </div>
+        `
+    }
 }
 
-const createCol = (content) => {
+const createCol = (content, col) => {
+    console.log("col = ", col)
     return `
-        <div class="column" data-type="resizable">
+        <div class="column" data-type="resizable" data-col=${col}>
             ${content}
             <div class="col-resize" data-resize="col" draggable="false"></div>
         </div>
@@ -41,15 +56,14 @@ export const createTable = (rowsCount = 20) => {
         .map(createCol)
         .join('')
 
-    const tableBodyCells = new Array(colsCount)
-        .fill("")
-        .map(createCell)
-        .join((""))
-
     const rows = []
     rows.push(createRow("", tableHeaderCells))
-    for (let i = 0; i < rowsCount; i++) {
-        rows.push(createRow(i + 1, tableBodyCells))
+    for (let row = 0; row < rowsCount; row++) {
+        const tableBodyCells = new Array(colsCount)
+            .fill("")
+            .map(createCell(row))
+            .join((""))
+        rows.push(createRow(row + 1, tableBodyCells))
     }
 
     return rows.join("")

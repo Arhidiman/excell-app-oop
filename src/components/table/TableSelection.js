@@ -1,15 +1,23 @@
-import Table from "@/components/table/Table"
 export class TableSelection {
-    constructor($el) {
-        this.$el = $el
+    static selectedClassname = "selected"
+    constructor($table) {
         this.group = []
+        this.$table = $table
     }
 
     select($el) {
-        $el.toHTML().classList.add("selected")
-    }
+        this.clear()
+        $el.addClass("selected")
+     }
 
-    selectGroup() {
+     clear() {
+        console.log(this.selectedClassname)
+         const selectedCells = this.$table.findAll(`.${TableSelection.selectedClassname}`)
+         selectedCells.forEach($cell => $cell.removeClass(TableSelection.selectedClassname))
+     }
 
+    selectGroup($el) {
+        this.group.push($el)
+        $el.addClass("selected")
     }
 }

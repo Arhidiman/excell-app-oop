@@ -39,11 +39,24 @@ class DOM {
     }
 
     findAll(selector) {
-        console.log("selector", selector)
-        console.log(this.$el)
-        console.log(this.$el.querySelectorAll(selector))
-        return this.$el.querySelectorAll(selector)
+        const elements = []
+        const collection = this.$el.querySelectorAll(selector)
+        collection.forEach(element => elements.push($(element)))
+        return elements
     }
+
+    find(selector) {
+        return $(this.$el.querySelector(selector))
+    }
+
+    addClass(className) {
+        this.$el.classList.add(className)
+    }
+
+    removeClass(className) {
+        this.$el.classList.remove(className)
+    }
+
     css(styles = {}) {
         Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
     }

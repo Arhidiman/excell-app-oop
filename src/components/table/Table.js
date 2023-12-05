@@ -1,7 +1,16 @@
 import {ExcelComponent} from "@/core/ExcelComponent";
 import {createTable} from "@/components/table/table.template";
 import {$} from "@/core/dom"
-import {setResizerStyle, moveResizer, resizeCol, resizeRow} from "@/components/table/table.lib";
+import {
+    setResizerStyle,
+    moveResizer,
+    resizeCol,
+    resizeRow,
+    shouldResize,
+    resizeHandler,
+    isCell
+} from "@/components/table/table.lib";
+import {TableSelection} from "@/components/table/TableSelection";
 
 export class Table extends ExcelComponent {
 
@@ -11,7 +20,7 @@ export class Table extends ExcelComponent {
             name: "Table",
             listeners: ["click", "mousedown", "mousemove", 'mouseup']
         })
-        this.$root = this.$root
+        this.selection = null
         console.log(this.$root)
     }
     toHTML() {
@@ -19,33 +28,23 @@ export class Table extends ExcelComponent {
     }
 
     onMousedown(event) {
-        if (event.target.dataset.resize) {
-            const resizer = $(event.target)
-            const type = event.target.dataset.resize
-            const startX = event.clientX
-            const startY = event.clientY
-            const resizableElement = $(resizer.$el.closest(`[data-type="resizable"]`))
-            const colSelector = `[data-col=${resizableElement.$el.textContent.trim()}]`
-            setResizerStyle(resizer, type)
-            document.onmousemove = (event) => {
-                moveResizer(event, type, resizer, resizableElement)
-            }
-            document.onmouseup = (event) => {
-                resizer.css({background: "transparent", heigth: "24px"})
-
-                switch (type) {
-                    case "col": resizeCol(event, resizableElement, colSelector, startX)
-                        break
-                    case "row": resizeRow(event, resizableElement, startY)
-                }
-                document.onmousemove = null
-                document.onmouseup = null
-            }
+        console.log(event.target.dataset.type)
+        if (shouldResize(event)) {
+            resizeHandler(event)
+        }
+        else if(isCell(event)) {
+            const cellCelector = `[data-id="${event.target.dataset.id}"]`
+            const $cell = $(event.target)
+            this.selection.select($cell)
         }
     }
 
     init() {
         super.init()
+        console.log(this.$root.$el)
+        this.selection = new TableSelection(this.$root)
+        const $cell = this.$root.find(`[data-id="0:0"]`)
+        this.selection.select($cell)
     }
 
     onMousemove(event) {
@@ -57,6 +56,9 @@ export class Table extends ExcelComponent {
     }
 
     onClick(event) {
-
+        // console.log(event.target)
+        // const cellCelector = `[data-id="${event.target.dataset.id}"]`
+        // const $cell = this.$root.find(cellCelector)
+        // this.selection.select($cell)
     }
 }

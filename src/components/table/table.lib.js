@@ -1,3 +1,9 @@
+import {$} from "@core/dom";
+
+export const shouldResize = (event) => {
+    return event.target.dataset.resize !== undefined
+}
+
 export const setResizerStyle = (resizer, type) => {
     switch (type) {
         case "col": {
@@ -31,8 +37,8 @@ export const resizeCol = (event, resizableElement, colSelector, startX) => {
     const deltaWidth = endX - startX
     const resizeElementStartWidth = resizableElement.$el.offsetWidth
     const resizeElementEndWidth = resizeElementStartWidth + deltaWidth
-    const colElements = document.querySelectorAll(colSelector)
-    console.log(resizeElementEndWidth)
+    const colElements = document.querySelectorAll(`[data-col="${colSelector}"]`)
+    console.log("colSelector", colSelector)
 
     resizableElement.css({width: `${resizeElementEndWidth}px`})
     colElements.forEach(element => element.style.width = `${resizeElementEndWidth}px`)
@@ -45,4 +51,31 @@ export const resizeRow = (event, resizableElement, startY) => {
     const resizeElementEndHeight = resizeElementStartHeight + deltaHeight
     resizableElement.css({height: `${resizeElementEndHeight}px`})
     // resizer.$el.classList.remove("row-resize-indicator") // Вариант полосы ресайза на css
+}
+
+export const resizeHandler = (event) => {
+    const resizer = $(event.target)
+    const type = event.target.dataset.resize
+    const startX = event.clientX
+    const startY = event.clientY
+    const resizableElement = $(resizer.$el.closest(`[data-type="resizable"]`))
+    const colSelector = resizableElement.$el.dataset.col
+    setResizerStyle(resizer, type)
+    document.onmousemove = (event) => {
+        moveResizer(event, type, resizer, resizableElement)
+    }
+    document.onmouseup = (event) => {
+        resizer.css({background: "transparent", heigth: "24px"})
+        switch (type) {
+            case "col": resizeCol(event, resizableElement, colSelector, startX)
+                break
+            case "row": resizeRow(event, resizableElement, startY)
+        }
+        document.onmousemove = null
+        document.onmouseup = null
+    }
+}
+
+export const isCell = (event) => {
+    return event.target.dataset.type === "cell"
 }
