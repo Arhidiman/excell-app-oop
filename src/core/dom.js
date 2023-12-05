@@ -3,8 +3,8 @@ class DOM {
         // console.log(typeof selector )
         this.$el = typeof selector === "string"
         ? document.querySelector(selector)
-        : selector;
-        // console.log("selector", selector)
+        : selector
+        this.data = this.$el.dataset
     }
     html(html) {
         // console.log(typeof html)
@@ -55,6 +55,17 @@ class DOM {
 
     removeClass(className) {
         this.$el.classList.remove(className)
+    }
+
+    id(parce) {
+        if (parce) {
+            const parcedId = this.data.id.split(":")
+            return {
+                row: +parcedId[0],
+                col: +parcedId[1]
+            }
+        }
+        return this.data.id
     }
 
     css(styles = {}) {

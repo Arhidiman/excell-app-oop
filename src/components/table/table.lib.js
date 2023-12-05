@@ -79,7 +79,14 @@ export const resizeHandler = (event) => {
 export const isCell = (event) => {
     return event.target.dataset.type === "cell"
 }
-export const isCtrlPressed = (event) => {
-    return event.ctrlKey
+
+export const getRange = (start, end) => {
+    if (start > end) {
+        [start, end] = [end, start]
+    }
+    return {
+        start,
+        end
+    }
 }
 

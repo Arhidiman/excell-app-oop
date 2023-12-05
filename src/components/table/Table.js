@@ -8,7 +8,8 @@ import {
     resizeRow,
     shouldResize,
     resizeHandler,
-    isCell, isCtrlPressed
+    isCell,
+    getRange
 } from "@/components/table/table.lib";
 import {TableSelection} from "@/components/table/TableSelection";
 
@@ -39,40 +40,34 @@ export class Table extends ExcelComponent {
             const startSelectId = (event.target.dataset['id'])
             console.log("Ctrl pressed", isCtrlPressed(event))
 
-            if(isCtrlPressed(event)) {
-
+            if(event.ctrlKey) {
+                const $targetCell = $(event.target)
+                console.log($targetCell.id())
                 this.$root.$el.onmousemove = (event) => {
                     const endSelectId = event.target.dataset['id']
                     const [startRow, startColumn] = startSelectId.split(":").map(Number)
                     const [endRow, endColumn] = endSelectId.split(":").map(Number)
                     const colsNum = endColumn - startColumn + 1
                     const rowsNum = endRow - startRow + 1
-
-                    console.log(startSelectId, endSelectId)
-                    //
-                    // console.log("colsNum =", colsNum, "rowsNum =", rowsNum)
-
-
+                    // console.log(startSelectId, endSelectId)
                     const cellsRows = []
-
-                    for (let rowNum = startRow; rowNum <  endRow; rowNum++) {
+                    const range = getRange(startRow, endRow)
+                    for (let rowNum = range.start; rowNum <  range.end; rowNum++) {
                         const row = new Array(colsNum)
                             .fill("")
                             .map((col, i) => `${rowNum}:${i + startColumn}`)
                         cellsRows.push(row)
                     }
 
-                    console.log(cellsRows)
-                    const allCells =  cellsRows.length !== 0 && cellsRows
+                    const $allCells =  cellsRows.length !== 0 && cellsRows
                         .reduce((rows, row) => rows.concat(row))
                         .map((cell) => this.$root.find(`[data-id="${cell}"]`))
-                    this.selection.selectGroup(allCells)
+                    this.selection.selectGroup($allCells)
                     this.$root.$el.onmouseup = () => {
                         this.$root.$el.onmousemove = null
                     }
                 }
             }
-
         }
     }
 
@@ -93,9 +88,7 @@ export class Table extends ExcelComponent {
     }
 
     onClick(event) {
-        // console.log(event.target)
-        // const cellCelector = `[data-id="${event.target.dataset.id}"]`
-        // const $cell = this.$root.find(cellCelector)
-        // this.selection.select($cell)
+
     }
 }
+
