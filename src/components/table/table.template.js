@@ -24,7 +24,6 @@ function createCell(row) {
 }
 
 const createCol = (content, col) => {
-    console.log("col = ", col)
     return `
         <div class="column" data-type="resizable" data-col=${col}>
             ${content}

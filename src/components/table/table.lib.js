@@ -79,3 +79,7 @@ export const resizeHandler = (event) => {
 export const isCell = (event) => {
     return event.target.dataset.type === "cell"
 }
+export const isCtrlPressed = (event) => {
+    return event.ctrlKey
+}
+

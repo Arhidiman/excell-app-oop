@@ -16,8 +16,7 @@ export class TableSelection {
          selectedCells.forEach($cell => $cell.removeClass(TableSelection.selectedClassname))
      }
 
-    selectGroup($el) {
-        this.group.push($el)
-        $el.addClass("selected")
+    selectGroup($elements) {
+        $elements && $elements.forEach($element => $element.addClass(TableSelection.selectedClassname))
     }
 }
