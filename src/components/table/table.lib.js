@@ -80,12 +80,53 @@ export const isCell = (event) => {
     return event.target.dataset.type === "cell"
 }
 
-export const getRange = (start, end) => {
-    if (start > end) {
-        [start, end] = [end, start]
+// export const getRange = (start, end) => {
+//     if (start > end) {
+//         [start, end] = [end, start]
+//     }
+//     return {
+//         start,
+//         end
+//     }
+// }
+export const getRange = (startId, endId) => {
+    let [startRow, startColumn] = startId.split(":").map(Number)
+    let [endRow, endColumn] = endId.split(":").map(Number)
+
+    if (startRow > endRow) {
+        [startRow, endRow] = [endRow, startRow]
     }
+    if (startColumn > endColumn) {
+        [startColumn, endColumn] = [endColumn, startColumn]
+    }
+
+
     return {
-        start,
-        end
+        start: {
+            row: startRow,
+            col: startColumn
+        },
+        end: {
+            row: endRow,
+            col: endColumn
+        }
     }
+}
+
+export const nextSelector = (key, {col, row}) => {
+    switch (key) {
+        case "ArrowDown": {
+            row++
+        } break
+        case "ArrowUp": {
+            row--
+        } break
+        case "ArrowLeft": {
+            col--
+        } break
+        case "ArrowRight": {
+            col++
+        } break
+    }
+    return `[data-id="${row}:${col}"]`
 }

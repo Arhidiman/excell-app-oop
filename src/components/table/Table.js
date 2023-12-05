@@ -9,7 +9,8 @@ import {
     shouldResize,
     resizeHandler,
     isCell,
-    getRange
+    getRange,
+    nextSelector
 } from "@/components/table/table.lib";
 import {TableSelection} from "@/components/table/TableSelection";
 
@@ -35,30 +36,21 @@ export class Table extends ExcelComponent {
             resizeHandler(event)
         }
         else if(isCell(event)) {
-            const cellSelector = `[data-id="${event.target.dataset.id}"]`
             const $cell = $(event.target)
             this.selection.select($cell)
             const startSelectId = (event.target.dataset['id'])
-
             if(event.ctrlKey) {
-                const $targetCell = $(event.target)
-                console.log($targetCell.id())
                 this.$root.$el.onmousemove = (event) => {
                     const endSelectId = event.target.dataset['id']
-                    const [startRow, startColumn] = startSelectId.split(":").map(Number)
-                    const [endRow, endColumn] = endSelectId.split(":").map(Number)
-                    const colsNum = endColumn - startColumn + 1
-                    const rowsNum = endRow - startRow + 1
-                    // console.log(startSelectId, endSelectId)
+                    const range = getRange(startSelectId, endSelectId)
+                    const colsNum = range.end.col - range.start.col + 1
                     const cellsRows = []
-                    const range = getRange(startRow, endRow)
-                    for (let rowNum = range.start; rowNum <  range.end; rowNum++) {
+                    for (let rowNum = range.start.row; rowNum <  range.end.row; rowNum++) {
                         const row = new Array(colsNum)
                             .fill("")
-                            .map((col, i) => `${rowNum}:${i + startColumn}`)
+                            .map((col, i) => `${rowNum}:${i + range.start.col}`)
                         cellsRows.push(row)
                     }
-
                     const $allCells =  cellsRows.length !== 0 && cellsRows
                         .reduce((rows, row) => rows.concat(row))
                         .map((cell) => this.$root.find(`[data-id="${cell}"]`))
@@ -92,43 +84,14 @@ export class Table extends ExcelComponent {
     }
 
     onKeydown(event) {
-        console.log(event)
-        const currentId = this.selection.$current.id(true)
-        console.log(currentId)
-
         const key = event.key
         const keys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
-
         if (keys.includes(key)) {
-            console.log(this.selection.current)
-
             const currentId = this.selection.$current.id(true)
-            console.log(currentId)
             const $nextCell = this.$root.find(nextSelector(key, currentId))
             this.selection.select($nextCell)
             $nextCell.$el.focus()
         }
-
-
-        function nextSelector(key, {col, row}) {
-            switch(key) {
-                case "ArrowDown" : {
-                    row++
-                } break
-                case "ArrowUp" : {
-                    row++
-                } break
-                case "ArrowLeft" : {
-                    col--
-                } break
-                case "ArrowRight" : {
-                    col++
-                } break
-            }
-            return `[data-id="${row}:${col}"]`
-        }
-
-
     }
 }
 
