@@ -19,13 +19,14 @@ export class Table extends ExcelComponent {
     constructor($root) {
         super($root, {
             name: "Table",
-            listeners: ["click", "mousedown", "mousemove", 'mouseup']
+            listeners: ["click", "mousedown", "mousemove", 'mouseup', "keydown"]
         })
         this.selection = null
+        this.rowsNum = 50
         console.log(this.$root)
     }
     toHTML() {
-        return createTable(50)
+        return createTable(this.rowsNum)
     }
 
     onMousedown(event) {
@@ -38,7 +39,6 @@ export class Table extends ExcelComponent {
             const $cell = $(event.target)
             this.selection.select($cell)
             const startSelectId = (event.target.dataset['id'])
-            console.log("Ctrl pressed", isCtrlPressed(event))
 
             if(event.ctrlKey) {
                 const $targetCell = $(event.target)
@@ -90,5 +90,48 @@ export class Table extends ExcelComponent {
     onClick(event) {
 
     }
+
+    onKeydown(event) {
+        console.log(event)
+        const currentId = this.selection.$current.id(true)
+        console.log(currentId)
+
+        const key = event.key
+        const keys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
+
+        if (keys.includes(key)) {
+            console.log(this.selection.current)
+
+            const currentId = this.selection.$current.id(true)
+            console.log(currentId)
+            const $nextCell = this.$root.find(nextSelector(key, currentId))
+            this.selection.select($nextCell)
+            $nextCell.$el.focus()
+        }
+
+
+        function nextSelector(key, {col, row}) {
+            switch(key) {
+                case "ArrowDown" : {
+                    row++
+                } break
+                case "ArrowUp" : {
+                    row++
+                } break
+                case "ArrowLeft" : {
+                    col--
+                } break
+                case "ArrowRight" : {
+                    col++
+                } break
+            }
+            return `[data-id="${row}:${col}"]`
+        }
+
+
+    }
 }
 
+function idToString (parcedId) {
+    return `${parcedId.row}:${parcedId.col}`
+}

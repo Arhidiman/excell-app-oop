@@ -8,6 +8,7 @@ export class TableSelection {
     select($el) {
         this.clear()
         $el.addClass("selected")
+        this.$current = $el
      }
 
      clear() {
