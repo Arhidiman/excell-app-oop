@@ -6,7 +6,7 @@ export class Formula extends ExcelComponent {
     constructor($root, options) {
         super($root, {
             name: "Formula",
-            listeners: ["input"],
+            listeners: ["input", "keydown"],
             ...options
         })
     }
@@ -21,7 +21,13 @@ export class Formula extends ExcelComponent {
     onInput(event) {
         const text = event.target.textContent.trim()
         this.$emit("formula:input", text)
-        console.log(this.emitter.listeners)
+    }
+
+    onKeydown(event) {
+        const key = event.key
+        if(key === "Enter") {
+            this.$emit("formula:enterdown")
+        }
     }
 
 }

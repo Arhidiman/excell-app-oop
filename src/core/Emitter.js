@@ -34,5 +34,3 @@ const emitter = new Emitter()
 emitter.subscribe('someEvent', data => console.log("Sub", data))
 
 emitter.emit("someEvent", 50, 100, 150)
-
-console.log(emitter.listeners)

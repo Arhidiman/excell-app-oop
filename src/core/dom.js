@@ -76,6 +76,10 @@ class DOM {
     css(styles = {}) {
         Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
     }
+
+    focus() {
+        this.$el.focus()
+    }
 }
 
 export const $ = (selector) => new DOM(selector)
