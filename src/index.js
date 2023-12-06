@@ -9,5 +9,9 @@ import "./scss/index.scss";
 const excel = new Excel("#app", {
     components: [Header, Toolbar, Formula, Table]
 })
-
+const test = () => {
+    console.log("test")
+    return () => console.log('arrrow func')
+}
+test()
 excel.render()
