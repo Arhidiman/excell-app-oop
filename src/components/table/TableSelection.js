@@ -12,7 +12,6 @@ export class TableSelection {
      }
 
      clear() {
-        console.log(this.selectedClassname)
          const selectedCells = this.$table.findAll(`.${TableSelection.selectedClassname}`)
          selectedCells.forEach($cell => $cell.removeClass(TableSelection.selectedClassname))
      }

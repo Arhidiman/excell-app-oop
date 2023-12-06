@@ -10,4 +10,9 @@ const excel = new Excel("#app", {
     components: [Header, Toolbar, Formula, Table]
 })
 
+
 excel.render()
+
+const input = document.querySelector(".input")
+input.onfocus = () => console.log(input, "focus")
+console.log(focus)

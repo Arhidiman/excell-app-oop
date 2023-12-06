@@ -20,7 +20,7 @@ export class Table extends ExcelComponent {
     constructor($root, options) {
         super($root, {
             name: "Table",
-            listeners: ["click", "mousedown", "mousemove", 'mouseup', "keydown"],
+            listeners: ["click", "mousedown", "mousemove", 'mouseup', "keydown", "focus", "input"],
             ...options
         })
         this.selection = null
@@ -32,7 +32,6 @@ export class Table extends ExcelComponent {
     }
 
     onMousedown(event) {
-        console.log(event.target.dataset.type)
         if (shouldResize(event)) {
             resizeHandler(event)
         }
@@ -69,12 +68,14 @@ export class Table extends ExcelComponent {
         super.init()
         this.selection = new TableSelection(this.$root)
         const $cell = this.$root.find(`[data-id="0:0"]`)
+        $cell.focus()
         this.selection.select($cell)
+        this.$emit("table:select", $cell)
         this.$on("formula:input", text => {
             this.selection.$current.text(text)
         })
         this.$on("formula:enterdown", () => {
-            console.log(this.selection.$current.focus())
+            this.selection.$current.focus()
         })
     }
 
@@ -98,7 +99,15 @@ export class Table extends ExcelComponent {
             const $nextCell = this.$root.find(nextSelector(key, currentId))
             this.selection.select($nextCell)
             $nextCell.$el.focus()
+            this.$emit("table:select", $nextCell)
         }
+    }
+
+    onInput(event) {
+        this.$emit("table:input", $(event.target))
+    }
+    onFocus() {
+        console.log("focused")
     }
 }
 
