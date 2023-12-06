@@ -20,8 +20,11 @@ export class Emitter {
     subscribe(event, fn) {
         this.listeners[event] = this.listeners[event] || []
         this.listeners[event].push(fn)
+        console.log("subscribe in emmit file")
+        console.log(this.listeners)
         return () => {
             this.listeners[event] = this.listeners[event].filter(listener => listener !== fn)
+            console.log(this.listeners)
         }
     }
 }
