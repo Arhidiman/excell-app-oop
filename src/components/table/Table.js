@@ -17,10 +17,11 @@ import {TableSelection} from "@/components/table/TableSelection";
 export class Table extends ExcelComponent {
 
     static className = "excel__table"
-    constructor($root) {
+    constructor($root, options) {
         super($root, {
             name: "Table",
-            listeners: ["click", "mousedown", "mousemove", 'mouseup', "keydown"]
+            listeners: ["click", "mousedown", "mousemove", 'mouseup', "keydown"],
+            ...options
         })
         this.selection = null
         this.rowsNum = 50
@@ -65,10 +66,13 @@ export class Table extends ExcelComponent {
 
     init() {
         super.init()
-        console.log(this.$root.$el)
         this.selection = new TableSelection(this.$root)
         const $cell = this.$root.find(`[data-id="0:0"]`)
         this.selection.select($cell)
+        this.emitter.subscribe("input", text => {
+            console.log(this.selection.$current.text(text))
+            // console.log("table formula", text)
+        })
     }
 
     onMousemove(event) {
