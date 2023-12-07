@@ -4,6 +4,7 @@ export const createStore = (rootReducer, initialState = {}) => {
 
     return {
         subscribe(fn) {
+            console.log(fn)
             listeners.push(fn)
             return {
                 unsubscribe() {
@@ -12,9 +13,9 @@ export const createStore = (rootReducer, initialState = {}) => {
             }
         },
         dispatch(action) {
+            console.log(listeners)
             state = rootReducer(state, action)
             listeners.forEach(listener => listener(state))
-
         },
         getState() {
             return state

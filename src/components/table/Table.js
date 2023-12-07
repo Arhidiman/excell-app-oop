@@ -25,11 +25,32 @@ export class Table extends ExcelComponent {
         })
         this.selection = null
         this.rowsNum = 50
-        console.log(this.$root)
     }
     toHTML() {
         return createTable(this.rowsNum)
     }
+
+    selectCell($cell) {
+        this.selection.select($cell)
+        this.$emit("table:select", $cell)
+        this.$dispatch({type: "TEST"})
+    }
+
+    init() {
+        super.init()
+        this.selection = new TableSelection(this.$root)
+        const $cell = this.$root.find(`[data-id="0:0"]`)
+        $cell.focus()
+        this.selectCell($cell)
+        this.$on("formula:input", text => {
+            this.selection.$current.text(text)
+        })
+        this.$on("formula:enterdown", () => {
+            this.selection.$current.focus()
+        })
+        this.$subscribe(state => console.log("table state", state))
+    }
+
 
     onMousedown(event) {
         if (shouldResize(event)) {
@@ -37,7 +58,7 @@ export class Table extends ExcelComponent {
         }
         else if(isCell(event)) {
             const $cell = $(event.target)
-            this.selection.select($cell)
+            this.selectCell($cell)
             const startSelectId = (event.target.dataset['id'])
             if(event.ctrlKey) {
                 this.$root.$el.onmousemove = (event) => {
@@ -63,21 +84,7 @@ export class Table extends ExcelComponent {
         }
     }
 
-    init() {
-        console.log("init table")
-        super.init()
-        this.selection = new TableSelection(this.$root)
-        const $cell = this.$root.find(`[data-id="0:0"]`)
-        $cell.focus()
-        this.selection.select($cell)
-        this.$emit("table:select", $cell)
-        this.$on("formula:input", text => {
-            this.selection.$current.text(text)
-        })
-        this.$on("formula:enterdown", () => {
-            this.selection.$current.focus()
-        })
-    }
+
 
     onMousemove(event) {
 
@@ -97,7 +104,7 @@ export class Table extends ExcelComponent {
         if (keys.includes(key)) {
             const currentId = this.selection.$current.id(true)
             const $nextCell = this.$root.find(nextSelector(key, currentId))
-            this.selection.select($nextCell)
+            this.selectCell($nextCell)
             $nextCell.$el.focus()
             this.$emit("table:select", $nextCell)
         }

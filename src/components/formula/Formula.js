@@ -27,19 +27,19 @@ export class Formula extends ExcelComponent {
         this.$on("table:input", ($cell) => {
             this.$formula.text($cell.text())
         })
+        this.$subscribe(state => console.log("formula state", state))
     }
 
     onInput(event) {
         const text = event.target.textContent.trim()
-        console.log($(event.target))
         this.$emit("formula:input", $(event.target).text())
+        this.$dispatch(({type: "TEST"}))
     }
 
     onKeydown(event) {
         const key = event.key
         if(key === "Enter") {
             event.preventDefault()
-            console.log("EnterDown")
             this.$emit("formula:enterdown")
         }
     }

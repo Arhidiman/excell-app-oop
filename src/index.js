@@ -10,6 +10,9 @@ import {rootReducer} from "@/redux/rootReducer";
 
 const store = createStore(rootReducer, {})
 
+
+console.log("STORE --", store)
+
 const excel = new Excel("#app", {
     components: [Header, Toolbar, Formula, Table],
     store

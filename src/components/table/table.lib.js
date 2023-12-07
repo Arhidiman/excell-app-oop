@@ -7,11 +7,9 @@ export const shouldResize = (event) => {
 export const setResizerStyle = (resizer, type) => {
     switch (type) {
         case "col": {
-            // event.target.classList.add('col-resize-indicator') // Вариант полосы ресайза на css
             resizer.css({background: "blue", height: "100vh"})
         } break
         case "row": {
-            // event.target.classList.add('row-resize-indicator')
             resizer.css({background: "blue", width: "300vw"})
         }
     }
@@ -21,8 +19,6 @@ export const moveResizer = (event, type, resizer, resizableElement) => {
     switch (type) {
         case "col": {
             const resizerPosition = event.clientX - resizableElement.getCoords().x
-            console.log('col resize', resizerPosition)
-
             resizer.css({left: `${resizerPosition}px`})
         } break
         case "row": {
@@ -38,8 +34,6 @@ export const resizeCol = (event, resizableElement, colSelector, startX) => {
     const resizeElementStartWidth = resizableElement.$el.offsetWidth
     const resizeElementEndWidth = resizeElementStartWidth + deltaWidth
     const colElements = document.querySelectorAll(`[data-col="${colSelector}"]`)
-    console.log("colSelector", colSelector)
-
     resizableElement.css({width: `${resizeElementEndWidth}px`})
     colElements.forEach(element => element.style.width = `${resizeElementEndWidth}px`)
 }
@@ -50,7 +44,6 @@ export const resizeRow = (event, resizableElement, startY) => {
     const resizeElementStartHeight = resizableElement.$el.offsetHeight
     const resizeElementEndHeight = resizeElementStartHeight + deltaHeight
     resizableElement.css({height: `${resizeElementEndHeight}px`})
-    // resizer.$el.classList.remove("row-resize-indicator") // Вариант полосы ресайза на css
 }
 
 export const resizeHandler = (event) => {
@@ -80,15 +73,6 @@ export const isCell = (event) => {
     return event.target.dataset.type === "cell"
 }
 
-// export const getRange = (start, end) => {
-//     if (start > end) {
-//         [start, end] = [end, start]
-//     }
-//     return {
-//         start,
-//         end
-//     }
-// }
 export const getRange = (startId, endId) => {
     let [startRow, startColumn] = startId.split(":").map(Number)
     let [endRow, endColumn] = endId.split(":").map(Number)
@@ -99,7 +83,6 @@ export const getRange = (startId, endId) => {
     if (startColumn > endColumn) {
         [startColumn, endColumn] = [endColumn, startColumn]
     }
-
 
     return {
         start: {
