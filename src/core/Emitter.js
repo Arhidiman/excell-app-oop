@@ -22,13 +22,6 @@ export class Emitter {
         this.listeners[event].push(fn)
              return () => {
             this.listeners[event] = this.listeners[event].filter(listener => listener !== fn)
-            console.log(this.listeners)
         }
     }
 }
-
-const emitter = new Emitter()
-
-emitter.subscribe('someEvent', data => console.log("Sub", data))
-
-emitter.emit("someEvent", 50, 100, 150)

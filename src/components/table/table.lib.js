@@ -28,6 +28,9 @@ export const moveResizer = (event, type, resizer, resizableElement) => {
     }
 }
 
+
+
+
 export const resizeCol = (event, resizableElement, colSelector, startX) => {
     const endX = event.clientX
     const deltaWidth = endX - startX
@@ -36,6 +39,7 @@ export const resizeCol = (event, resizableElement, colSelector, startX) => {
     const colElements = document.querySelectorAll(`[data-col="${colSelector}"]`)
     resizableElement.css({width: `${resizeElementEndWidth}px`})
     colElements.forEach(element => element.style.width = `${resizeElementEndWidth}px`)
+    return resizeElementEndWidth
 }
 
 export const resizeRow = (event, resizableElement, startY) => {
@@ -47,26 +51,33 @@ export const resizeRow = (event, resizableElement, startY) => {
 }
 
 export const resizeHandler = (event) => {
-    const resizer = $(event.target)
-    const type = event.target.dataset.resize
-    const startX = event.clientX
-    const startY = event.clientY
-    const resizableElement = $(resizer.$el.closest(`[data-type="resizable"]`))
-    const colSelector = resizableElement.$el.dataset.col
-    setResizerStyle(resizer, type)
-    document.onmousemove = (event) => {
-        moveResizer(event, type, resizer, resizableElement)
-    }
-    document.onmouseup = (event) => {
-        resizer.css({background: "transparent", heigth: "24px"})
-        switch (type) {
-            case "col": resizeCol(event, resizableElement, colSelector, startX)
-                break
-            case "row": resizeRow(event, resizableElement, startY)
+    return new Promise(resolve => {
+        let colWidth = null
+        const resizer = $(event.target)
+        const type = event.target.dataset.resize
+        const startX = event.clientX
+        const startY = event.clientY
+        const $resizableElement = $(resizer.$el.closest(`[data-type="resizable"]`))
+        const colSelector = $resizableElement.$el.dataset.col
+        setResizerStyle(resizer, type)
+        document.onmousemove = (event) => {
+            moveResizer(event, type, resizer, $resizableElement)
         }
-        document.onmousemove = null
-        document.onmouseup = null
-    }
+        document.onmouseup = (event) => {
+            resizer.css({background: "transparent", heigth: "24px"})
+            switch (type) {
+                case "col": colWidth = resizeCol(event, $resizableElement, colSelector, startX)
+                    break
+                case "row": resizeRow(event, $resizableElement, startY)
+            }
+            document.onmousemove = null
+            document.onmouseup = null
+            resolve({
+                colWidth,
+                id: type === "col" ? $resizableElement.data.col : null
+            })
+        }
+    })
 }
 
 export const isCell = (event) => {

@@ -1,13 +1,11 @@
 class DOM {
     constructor(selector) {
-        // console.log(typeof selector )
         this.$el = typeof selector === "string"
         ? document.querySelector(selector)
         : selector
         this.data = this.$el.dataset
     }
     html(html) {
-        // console.log(typeof html)
         if (typeof html === "string") {
             this.$el.innerHTML = html
             return this
@@ -16,8 +14,6 @@ class DOM {
     }
 
     text(text) {
-        // console.log(this.$el)
-
         if (typeof text === "string") {
             this.$el.textContent = text
             return this
@@ -37,7 +33,6 @@ class DOM {
     }
 
     off(eventType, callback) {
-        console.log("off method works")
         this.$el.removeEventListener(eventType, callback)
     }
     append(node) {

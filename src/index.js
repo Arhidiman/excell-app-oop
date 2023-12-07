@@ -4,23 +4,23 @@ import {Header} from "@/components/header/Header";
 import {Toolbar} from "@/components/toolbar/Toolbar";
 import {Formula} from "@/components/formula/Formula";
 import {Table} from "@/components/table/Table";
-import "./scss/index.scss";
 import {createStore} from "@core/createStore";
 import {rootReducer} from "@/redux/rootReducer";
+import {storage} from "@core/utils";
+import "./scss/index.scss";
 
-const store = createStore(rootReducer, {})
+const store = createStore(rootReducer, storage("excel-state"))
+
+store.subscribe(state => {
+    storage("excel-state", state)
+})
 
 
-console.log("STORE --", store)
 
 const excel = new Excel("#app", {
     components: [Header, Toolbar, Formula, Table],
     store
 })
 
-
 excel.render()
 
-const input = document.querySelector(".input")
-input.onfocus = () => console.log(input, "focus")
-console.log(focus)

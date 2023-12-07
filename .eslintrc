@@ -19,6 +19,6 @@
       "max-len": "off"
   },
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
   }
 }

@@ -13,6 +13,8 @@ import {
     nextSelector
 } from "@/components/table/table.lib";
 import {TableSelection} from "@/components/table/TableSelection";
+import {TABLE_RESIZE} from "@/redux/type";
+import * as actions from "@/redux/actions";
 
 export class Table extends ExcelComponent {
 
@@ -25,9 +27,10 @@ export class Table extends ExcelComponent {
         })
         this.selection = null
         this.rowsNum = 50
+        this.initialData = this.store.getState()
     }
     toHTML() {
-        return createTable(this.rowsNum)
+        return createTable(this.rowsNum, this.initialData.colsState)
     }
 
     selectCell($cell) {
@@ -48,13 +51,21 @@ export class Table extends ExcelComponent {
         this.$on("formula:enterdown", () => {
             this.selection.$current.focus()
         })
-        this.$subscribe(state => console.log("table state", state))
+        // this.$subscribe(state => console.log("table state", state))
     }
 
+    async resizeTable(event) {
+        try {
+            const data = await resizeHandler(event)
+            this.$dispatch(actions.tableResize(data))
+        } catch(error) {
+            throw new Error(error)
+        }
+    }
 
     onMousedown(event) {
         if (shouldResize(event)) {
-            resizeHandler(event)
+            this.resizeTable(event)
         }
         else if(isCell(event)) {
             const $cell = $(event.target)
