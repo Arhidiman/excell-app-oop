@@ -3,7 +3,6 @@ import {SET_CURRENT_TEXT} from "@/redux/type";
 import {setCurrentText} from "@/redux/actions";
 
 export const rootReducer = (state, action) => {
-    console.log(state)
     switch (action.type) {
         case TABLE_RESIZE:
             const field = action.data.resizeType === "col" ? "colsState" : "rowsState"
