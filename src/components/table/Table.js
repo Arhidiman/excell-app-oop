@@ -2,10 +2,6 @@ import {ExcelComponent} from "@/core/ExcelComponent";
 import {createTable} from "@/components/table/table.template";
 import {$} from "@/core/dom"
 import {
-    setResizerStyle,
-    moveResizer,
-    resizeCol,
-    resizeRow,
     shouldResize,
     resizeHandler,
     isCell,
@@ -13,7 +9,6 @@ import {
     nextSelector
 } from "@/components/table/table.lib";
 import {TableSelection} from "@/components/table/TableSelection";
-import {TABLE_RESIZE} from "@/redux/type";
 import * as actions from "@/redux/actions";
 
 export class Table extends ExcelComponent {
@@ -27,10 +22,10 @@ export class Table extends ExcelComponent {
         })
         this.selection = null
         this.rowsNum = 50
-        this.initialData = this.store.getState()
+        this.state = this.store.getState()
     }
     toHTML() {
-        return createTable(this.rowsNum, this.initialData.colsState)
+        return createTable(this.rowsNum, this.state)
     }
 
     selectCell($cell) {

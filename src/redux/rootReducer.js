@@ -3,18 +3,10 @@ import {TABLE_RESIZE} from "@/redux/type";// Pure function
 export const rootReducer = (state, action) => {
     switch (action.type) {
         case TABLE_RESIZE:
-            let colsState = state.colsState
-            colsState[action.data.id] = action.data.colWidth
-            return {...state, colsState: colsState} // id, value
+            const field = action.data.resizeType === "col" ? "colsState" : "rowsState"
+            const prevState = state[field]
+            prevState[action.data.id] = action.data.value
+            return {...state, [field]: prevState} // id, value
         default: return state
     }
-}
-
-const state = {
-    prop1: 1,
-    prop2: 2
-}
-
-const newState = {
-    ...state, prop1: 29
 }

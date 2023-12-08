@@ -9,13 +9,20 @@ import {rootReducer} from "@/redux/rootReducer";
 import {storage} from "@core/utils";
 import "./scss/index.scss";
 
-const store = createStore(rootReducer, storage("excel-state"))
+
+const initialState = {
+    colsState: {
+        0: 120
+    },
+    rowsState: {
+        0: 24
+    }
+}
+const store = createStore(rootReducer, storage("excel-state") || initialState)
 
 store.subscribe(state => {
     storage("excel-state", state)
 })
-
-
 
 const excel = new Excel("#app", {
     components: [Header, Toolbar, Formula, Table],

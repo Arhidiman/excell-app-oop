@@ -48,11 +48,13 @@ export const resizeRow = (event, resizableElement, startY) => {
     const resizeElementStartHeight = resizableElement.$el.offsetHeight
     const resizeElementEndHeight = resizeElementStartHeight + deltaHeight
     resizableElement.css({height: `${resizeElementEndHeight}px`})
+    return resizeElementEndHeight
 }
 
 export const resizeHandler = (event) => {
     return new Promise(resolve => {
         let colWidth = null
+        let value = null
         const resizer = $(event.target)
         const type = event.target.dataset.resize
         const startX = event.clientX
@@ -66,15 +68,16 @@ export const resizeHandler = (event) => {
         document.onmouseup = (event) => {
             resizer.css({background: "transparent", heigth: "24px"})
             switch (type) {
-                case "col": colWidth = resizeCol(event, $resizableElement, colSelector, startX)
+                case "col": value = resizeCol(event, $resizableElement, colSelector, startX)
                     break
-                case "row": resizeRow(event, $resizableElement, startY)
+                case "row": value = resizeRow(event, $resizableElement, startY)
             }
             document.onmousemove = null
             document.onmouseup = null
             resolve({
-                colWidth,
-                id: type === "col" ? $resizableElement.data.col : null
+                value,
+                id: type === "col" ? $resizableElement.data.col : $resizableElement.data.row,
+                resizeType: $resizableElement.data.col ? "col" : "row"
             })
         }
     })
