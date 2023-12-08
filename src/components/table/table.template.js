@@ -6,8 +6,7 @@ const CODES = {
 function getWidth(state, index) {
     if (state) {
         if (state.colsState) {
-            const width = state.colsState[index] || 120
-            return width
+            return state.colsState[index] || 120
         } else return 120
     } else return 120
 }
@@ -22,6 +21,8 @@ function getHeight(state, index) {
 
 function createCell(row, state) {
     return function(_, col) {
+        const id = `${row}:${col}`
+        const data = state.cellsDataState[id]
         return `
             <div 
                 style="width: ${getWidth(state, col)}px"
@@ -29,9 +30,10 @@ function createCell(row, state) {
                 contenteditable="" 
                 data-type="cell"
                 data-col="${col}" 
-                data-id="${row}:${col}" 
+                data-id="${id}" 
                 draggable="false"
             >
+            ${data || ""}
             </div>
         `
     }

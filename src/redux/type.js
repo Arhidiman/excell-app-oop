@@ -1,1 +1,2 @@
 export const TABLE_RESIZE = "TABLE_RESIZE"
+export const SET_CURRENT_TEXT = "SET_CURRENT_TEXT"

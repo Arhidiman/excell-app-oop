@@ -10,6 +10,7 @@ import {
 } from "@/components/table/table.lib";
 import {TableSelection} from "@/components/table/TableSelection";
 import * as actions from "@/redux/actions";
+import {setCurrentText} from "@/redux/actions";
 
 export class Table extends ExcelComponent {
 
@@ -17,7 +18,7 @@ export class Table extends ExcelComponent {
     constructor($root, options) {
         super($root, {
             name: "Table",
-            listeners: ["click", "mousedown", "mousemove", 'mouseup', "keydown", "focus", "input"],
+            listeners: ["mousedown", "keydown", "focus", "input"],
             ...options
         })
         this.selection = null
@@ -31,7 +32,8 @@ export class Table extends ExcelComponent {
     selectCell($cell) {
         this.selection.select($cell)
         this.$emit("table:select", $cell)
-        this.$dispatch({type: "TEST"})
+        console.log($cell.text())
+        console.log(this.state)
     }
 
     init() {
@@ -90,20 +92,6 @@ export class Table extends ExcelComponent {
         }
     }
 
-
-
-    onMousemove(event) {
-
-    }
-
-    onMouseup(event) {
-
-    }
-
-    onClick(event) {
-
-    }
-
     onKeydown(event) {
         const key = event.key
         const keys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
@@ -117,7 +105,11 @@ export class Table extends ExcelComponent {
     }
 
     onInput(event) {
-        this.$emit("table:input", $(event.target))
+        // this.$emit("table:input", $(event.target))
+        this.$dispatch(setCurrentText({
+            text: $(event.target).text(),
+            id:  $(event.target).data.id
+        }))
     }
     onFocus() {
         console.log("focused")

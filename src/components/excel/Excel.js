@@ -7,6 +7,7 @@ export class Excel {
         this.components = options.components || []
         this.emitter = new Emitter()
         this.store = options.store
+        console.log(this.store)
     }
     getRoot() {
         const $root = $.create("div", "excel")

@@ -9,15 +9,17 @@ import {rootReducer} from "@/redux/rootReducer";
 import {storage} from "@core/utils";
 import "./scss/index.scss";
 
-
 const initialState = {
     colsState: {
         0: 120
     },
     rowsState: {
         0: 24
-    }
+    },
+    currentText: "",
+    cellsDataState: {},
 }
+
 const store = createStore(rootReducer, storage("excel-state") || initialState)
 
 store.subscribe(state => {
