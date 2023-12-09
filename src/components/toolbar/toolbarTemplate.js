@@ -15,23 +15,23 @@ function createButton(data) {
 
 export function createToolbar(state) {
     console.log(state["fontWeight"])
-    console.log(state)
+    // console.log(state)
 
     const buttonsData = [
         {
             icon: "format_align_left",
-            active: false,
-            value: {textAlign: "left"}
+            active: state["textAlign"] === "left",
+            value: {textAlign: state["textAlign"] === "left" ? "auto" : "left"}
         },
         {
             icon: "format_align_center",
-            active: true,
-            value: {textAlign: 'center'}
+            active: state["textAlign"] === "center",
+            value: {textAlign: state["textAlign"] === "center" ? "auto" : "center"}
         },
         {
             icon: "format_align_right",
-            active: false,
-            value: {textAlign: 'right'}
+            active: state["textAlign"] === "right",
+            value: {textAlign: state["textAlign"] === "right" ? "auto" : "right"}
         },
         {
             icon: "format_bold",
@@ -40,13 +40,13 @@ export function createToolbar(state) {
         },
         {
             icon: "format_italic",
-            active: false,
-            value: {fontStyle: 'italic'}
+            active: state["fontStyle"] === "italic",
+            value: {fontStyle: state["fontStyle"] === "italic" ? "normal" : "italic"}
         },
         {
             icon: "format_underlined",
-            active: false,
-            value: {textDecoration: 'underline'}
+            active: state["textDecoration"] === "underline",
+            value: {textDecoration: state["textDecoration"] === "underline" ? "none" : "underline"}
         }
     ]
     return buttonsData.map(createButton).join("")
