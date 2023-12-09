@@ -35,7 +35,7 @@ export class ExcelComponent extends DomListener {
     }
 
     isWatching(key) {
-        return this.listeners.includes(key)
+        return this.subscribe.includes(key)
     }
     // Инициализирует компонент, добавляет DOM слушатели
     init() {

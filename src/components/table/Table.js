@@ -32,8 +32,6 @@ export class Table extends ExcelComponent {
     selectCell($cell) {
         this.selection.select($cell)
         this.$emit("table:select", $cell)
-        console.log($cell.text())
-        console.log(this.state)
     }
 
     init() {
@@ -48,7 +46,6 @@ export class Table extends ExcelComponent {
         this.$on("formula:enterdown", () => {
             this.selection.$current.focus()
         })
-        // this.$subscribe(state => console.log("table state", state))
     }
 
     async resizeTable(event) {

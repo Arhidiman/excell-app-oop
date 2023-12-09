@@ -7,7 +7,7 @@ export class Formula extends ExcelComponent {
         super($root, {
             name: "Formula",
             listeners: ["input", "keydown", "focus"],
-            subscribe: ["currentText"],
+            subscribe: ["currentText", "colsState"],
             ...options
         })
     }
@@ -27,10 +27,10 @@ export class Formula extends ExcelComponent {
         })
     }
 
-    storeChanged({currentText}) {
+    storeChanged({currentText, }) {
 
         this.$formula.text(currentText) // TODO разобраться почему не работаетв
-        console.log("changes", changes)
+        console.log("changes", currentText)
     }
 
     onInput(event) {
