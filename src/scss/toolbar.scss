@@ -13,6 +13,7 @@
   padding: 7px 10px;
 
   & .button {
+    user-select: none;
     @include button((green));
   }
 }

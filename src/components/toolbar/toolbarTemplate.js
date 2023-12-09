@@ -14,8 +14,6 @@ function createButton(data) {
 }
 
 export function createToolbar(state) {
-    console.log(state["fontWeight"])
-    // console.log(state)
 
     const buttonsData = [
         {

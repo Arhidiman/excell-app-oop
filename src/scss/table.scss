@@ -7,6 +7,7 @@
     right: 0;
     top: $header-height + $toolbar-height + $formula-height;
     overflow-x: scroll;
+    user-select: none;
     .row-resize, .col-resize {
         position: absolute;
         background: transparent;

@@ -11,6 +11,7 @@ import {
 import {TableSelection} from "@/components/table/TableSelection";
 import * as actions from "@/redux/actions";
 import {setCurrentText} from "@/redux/actions";
+import {defaultStyles} from "@/constants";
 
 export class Table extends ExcelComponent {
 
@@ -32,6 +33,7 @@ export class Table extends ExcelComponent {
     selectCell($cell) {
         this.selection.select($cell)
         this.$emit("table:select", $cell)
+        console.log($cell.getStyles(Object.keys(defaultStyles)))
     }
 
     init() {
@@ -45,6 +47,10 @@ export class Table extends ExcelComponent {
         })
         this.$on("formula:enterdown", () => {
             this.selection.$current.focus()
+        })
+        this.$on('toolbar:applyStyle', (style) => {
+            console.log("table style", style)
+            this.selection.applyStyle(style)
         })
     }
 
