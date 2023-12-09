@@ -7,9 +7,14 @@ export class ExcelComponent extends DomListener {
         this.emitter = options.emitter
         this.unsubscribers = []
         this.store = options.store
+        this.prepare()
     }
 
     // Возвращает шаблон компонента
+
+    prepare() {
+
+    }
     toHTML() {
         return ""
     }
