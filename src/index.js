@@ -17,9 +17,12 @@ const initialState = {
     rowsState: {
         0: 24
     },
+    stylesState: {},
     currentText: "",
     cellsDataState: {},
-    currentStyle: defaultStyles
+    currentStyle: defaultStyles,
+
+
 }
 
 const store = createStore(rootReducer, storage("excel-state") || initialState)
