@@ -8,6 +8,7 @@ import {createStore} from "@core/createStore";
 import {rootReducer} from "@/redux/rootReducer";
 import {storage} from "@core/utils";
 import "./scss/index.scss";
+import {defaultStyles} from "@/constants";
 
 const initialState = {
     colsState: {
@@ -18,6 +19,7 @@ const initialState = {
     },
     currentText: "",
     cellsDataState: {},
+    currentStyle: defaultStyles
 }
 
 const store = createStore(rootReducer, storage("excel-state") || initialState)

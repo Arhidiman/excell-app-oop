@@ -1,3 +1,5 @@
+import {defaultStyles} from "@/constants";
+
 const CODES = {
     A: 65,
     B: 90
@@ -23,9 +25,13 @@ function createCell(row, state) {
     return function(_, col) {
         const id = `${row}:${col}`
         const data = state.cellsDataState[id]
+        const width = getWidth(state, col)
+        const styles = Object.keys(defaultStyles)
+            .map(key => `${key}:${defaultStyles[key]}`)
+            .join(";")
         return `
             <div 
-                style="width: ${getWidth(state, col)}px"
+                style="${styles}; width: ${width}px "
                 class="cell" 
                 contenteditable="" 
                 data-type="cell"
