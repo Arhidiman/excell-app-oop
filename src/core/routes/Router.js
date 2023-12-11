@@ -18,11 +18,11 @@ export class Router {
     }
 
     changePageHandler = () => {
-        // console.log(ActiveRoute.path)
-        // console.log(ActiveRoute.param)
-        console.log(this.$placeholder)
-        console.log(this)
-        this.$placeholder.html(`<h1>${ActiveRoute.path}<h1/>`)
+        const Page = this.routes.excel
+        const page = new Page()
+        this.$placeholder.append(page.getRoot())
+        page.afterRender()
+
     }
 
     destroy() {
