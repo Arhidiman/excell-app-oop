@@ -13,6 +13,11 @@ class DOM {
         return this.$el.outerHTML.trim()
     }
 
+    clear() {
+        this.html('')
+        return this
+    }
+
     text(text) {
         console.log(text)
 
@@ -27,10 +32,6 @@ class DOM {
         return this.$el.textContent.trim()
     }
 
-    clear() {
-        this.html('')
-        return this
-    }
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback)
     }

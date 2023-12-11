@@ -30,6 +30,7 @@ export class Excel {
         return $root
     }
     init() {
+        console.log("EXCEL INIT!!!")
         this.subscriber.subscribeComponents(this.components)
         this.components.forEach((component, i) => component.init())
     }

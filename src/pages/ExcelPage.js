@@ -21,10 +21,12 @@ export class ExcelPage extends Page {
             components: [Header, Toolbar, Formula, Table],
             store
         })
+        console.log(this.params)
         return this.excel.getRoot()
    }
 
     afterRender() {
+       console.log(this.excel)
         this.excel.init()
     }
 

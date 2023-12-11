@@ -6,11 +6,10 @@ export class Router {
             throw new Error("Selector is not provided in router")
         }
         this.$placeholder = $(selector)
-        // this.$placeholder = document.getElementById("app")
         this.routes = routes
         this.init()
-        this.param = "some param"
         this.changePageHandler = this.changePageHandler.bind(this)
+        this.page = null
     }
     init() {
         window.addEventListener("hashchange", this.changePageHandler)
@@ -18,11 +17,18 @@ export class Router {
     }
 
     changePageHandler = () => {
-        const Page = this.routes.excel
-        const page = new Page()
-        this.$placeholder.append(page.getRoot())
-        page.afterRender()
+        if (this.page) {
+            this.page.destroy()
+        }
+        this.$placeholder.clear()
+        const Page = ActiveRoute.path.includes('excel')
+            ? this.routes.excel
+            : this.routes.dashboard
+        this.page = new Page(ActiveRoute.param)
+        this.$placeholder.append(this.page.getRoot())
+        this.page.afterRender()
 
+        console.log(this.page)
     }
 
     destroy() {
