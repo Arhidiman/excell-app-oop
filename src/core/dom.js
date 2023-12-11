@@ -14,13 +14,16 @@ class DOM {
     }
 
     text(text) {
-        if (typeof text === "string") {
+        console.log(text)
+
+        if (text !== undefined) {
             this.$el.textContent = text
             return this
         }
         if (this.$el.tagName.toLowerCase() === "input") {
             return this.$el.value.trim()
         }
+        console.log("text is undefined")
         return this.$el.textContent.trim()
     }
 

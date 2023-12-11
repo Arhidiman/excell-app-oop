@@ -23,6 +23,7 @@ export class Formula extends ExcelComponent {
         super.init()
         this.$formula = this.$root.find(".input")
         this.$on("table:select", ($cell) => {
+            console.log("SELECT")
             this.$formula.text($cell.data.value)
         })
     }

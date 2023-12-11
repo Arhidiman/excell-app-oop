@@ -8,6 +8,7 @@ export const tableResize = (data) => {
 }
 
 export const setCurrentText = (data) => {
+    console.log("SET CURRENT TEXT ", data)
     return {
         type: SET_CURRENT_TEXT,
         data

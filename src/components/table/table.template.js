@@ -32,7 +32,6 @@ function createCell(row, state) {
             ...defaultStyles,
             ...state.stylesState[id]
         })
-        console.log(parse(data))
         return `
             <div 
                 style="${styles}; width: ${width}px "
