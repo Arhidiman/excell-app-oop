@@ -62,6 +62,14 @@ class DOM {
         this.$el.classList.add(className)
     }
 
+    attr(name, value) {
+        if (value) {
+            this.$el.setAttribute(name, value)
+            return this
+        }
+        return this.$el.getAttribute(name)
+    }
+
     removeClass(className) {
         this.$el.classList.remove(className)
     }
