@@ -1,3 +1,5 @@
+import {defaultStyles} from "@/constants";
+
 export const capitalize = (string) => {
     if (typeof string !== "string") {
         return ""
@@ -23,5 +25,7 @@ export function camelToDashCase(string) {
     return string.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
 }
 export function toInlineStyles(styles = {}) {
-    return
+    return Object.keys(styles)
+        .map(key => `${camelToDashCase(key)}:${styles[key]}`)
+        .join(";")
 }
