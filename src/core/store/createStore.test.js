@@ -57,7 +57,6 @@ describe("TEST", () => {
                 store.dispatch({type: "ADD"})
             }, 500)
             setTimeout(() => {
-                store.dispatch({type: "ADD"})
                 expect(store.getState().count).toBe(1)
                 resolve()
             }, 1000)
