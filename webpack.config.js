@@ -12,10 +12,14 @@ console.log("isProd", isProd)
 console.log("isDev", isDev)
 
 const jsLoaders = () => {
-    const loaders = ["babel-loader"]
-    if (isDev) {
-        loaders.push("eslint-loader")
-    }
+    const loaders = [
+        {
+            loader: "babel-loader",
+            options: {
+                presets: ['@babel/preset-env']
+            }
+        }
+    ]
     return loaders
 }
 
