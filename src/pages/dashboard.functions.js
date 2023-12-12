@@ -1,8 +1,17 @@
-export function toHTML() {
+import {storage} from "@core/utils";
+
+export function toHTML(key) {
+
+    const model = storage(key)
+    const id = key.split(":")[1]
+
     return `
-        <li class="db__record">
-            <a href="#">Таблица № 2</a>
-            <strong>20.12.2024</strong>
+        <li class="db__record" data-tableId="${key}">
+            <a href="#excel/${id}">${model.title}</a>
+            <strong>
+                ${new Date(model.openedDate).toLocaleDateString()}
+                ${new Date(model.openedDate).toLocaleTimeString()}
+            </strong>
         </li>
     `
 }
@@ -21,9 +30,9 @@ function getAllKeys() {
     return keys
 }
 
-export function createRecordsTable() {
+export function createRecordsTable(state) {
     const keys = getAllKeys()
-
+    console.log(state)
     if (!keys.length) {
         return ` <p>Вы пока не создали ни одной таблицы</p>`
 
@@ -36,6 +45,5 @@ export function createRecordsTable() {
         <ul class="db__list">
             ${keys.map(toHTML).join("")}
         </ul>
-       
     `
 }

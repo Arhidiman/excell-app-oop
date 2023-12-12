@@ -2,7 +2,7 @@ import {Page} from "@core/Page";
 import {$} from "@core/dom"
 import {createRecordsTable} from "@/pages/dashboard.functions";
 export class DashboardPage extends Page {
-    getRoot() {
+        getRoot() {
         const now = Date.now().toString()
         return $.create("div", "db").html(`
             <div class="db__header">
