@@ -79,22 +79,24 @@ export class Table extends ExcelComponent {
             const startSelectId = (event.target.dataset['id'])
             if(event.ctrlKey) {
                 this.$root.$el.onmousemove = (event) => {
-                    const endSelectId = event.target.dataset['id']
-                    const range = getRange(startSelectId, endSelectId)
-                    const colsNum = range.end.col - range.start.col + 1
-                    const cellsRows = []
-                    for (let rowNum = range.start.row; rowNum <  range.end.row; rowNum++) {
-                        const row = new Array(colsNum)
-                            .fill("")
-                            .map((col, i) => `${rowNum}:${i + range.start.col}`)
-                        cellsRows.push(row)
-                    }
-                    const $allCells =  cellsRows.length !== 0 && cellsRows
-                        .reduce((rows, row) => rows.concat(row))
-                        .map((cell) => this.$root.find(`[data-id="${cell}"]`))
-                    this.selection.selectGroup($allCells)
-                    this.$root.$el.onmouseup = () => {
-                        this.$root.$el.onmousemove = null
+                    if (event.target.dataset.id) {
+                        const endSelectId = event.target.dataset['id']
+                        const range = getRange(startSelectId, endSelectId)
+                        const colsNum = range.end.col - range.start.col + 1
+                        const cellsRows = []
+                        for (let rowNum = range.start.row; rowNum < range.end.row; rowNum++) {
+                            const row = new Array(colsNum)
+                                .fill("")
+                                .map((col, i) => `${rowNum}:${i + range.start.col}`)
+                            cellsRows.push(row)
+                        }
+                        const $allCells = cellsRows.length !== 0 && cellsRows
+                            .reduce((rows, row) => rows.concat(row))
+                            .map((cell) => this.$root.find(`[data-id="${cell}"]`))
+                        this.selection.selectGroup($allCells)
+                        this.$root.$el.onmouseup = () => {
+                            this.$root.$el.onmousemove = null
+                        }
                     }
                 }
             }
