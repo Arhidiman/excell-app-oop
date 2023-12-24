@@ -18,18 +18,18 @@ export function createToolbar(state) {
     const buttonsData = [
         {
             icon: "format_align_left",
-            active: state["textAlign"] === "left",
-            value: {textAlign: state["textAlign"] === "left" ? "auto" : "left"}
+            active: state["justifyContent"] === "left",
+            value: {justifyContent: state["justifyContent"] === "left" ? "auto" : "left"}
         },
         {
             icon: "format_align_center",
-            active: state["textAlign"] === "center",
-            value: {textAlign: state["textAlign"] === "center" ? "auto" : "center"}
+            active: state["justifyContent"] === "center",
+            value: {justifyContent: state["justifyContent"] === "center" ? "auto" : "center"}
         },
         {
             icon: "format_align_right",
-            active: state["textAlign"] === "right",
-            value: {textAlign: state["textAlign"] === "right" ? "auto" : "right"}
+            active: state["justifyContent"] === "right",
+            value: {justifyContent: state["justifyContent"] === "right" ? "auto" : "right"}
         },
         {
             icon: "format_bold",
