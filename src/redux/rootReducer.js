@@ -1,6 +1,11 @@
-import {TABLE_RESIZE, CHANGE_STYLES, APPLY_STYLE} from "@/redux/type";// Pure function
-import {SET_CURRENT_TEXT} from "@/redux/type";
-import {setCurrentText} from "@/redux/actions";
+import {
+    TABLE_RESIZE,
+    CHANGE_STYLES,
+    APPLY_STYLE,
+    CHANGE_TITLE,
+    SET_CURRENT_TEXT,
+    UPDATE_DATE
+} from "@/redux/type";// Pure function
 
 export const rootReducer = (state, action) => {
     let prevState = {}
@@ -21,12 +26,15 @@ export const rootReducer = (state, action) => {
             field = "stylesState"
             const val = state[field] || {}
             action.data.ids.forEach(id => {
-                val[id] = action.value
+                val[id] = {...val[id], ...action.data.value}
             })
             return {
-                ...state,
-
+                ...state, [field]: val, currentStyles: {...state.currentStyles, ...action.data.value}
             }
+        case CHANGE_TITLE:
+            return {...state, title: action.data}
+        case UPDATE_DATE:
+            return {...state, openedDate: new Date().toJSON()}
         default: return state
     }
 }

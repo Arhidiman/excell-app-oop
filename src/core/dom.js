@@ -13,21 +13,25 @@ class DOM {
         return this.$el.outerHTML.trim()
     }
 
+    clear() {
+        this.html('')
+        return this
+    }
+
     text(text) {
-        if (typeof text === "string") {
+        console.log(text)
+
+        if (text !== undefined) {
             this.$el.textContent = text
             return this
         }
         if (this.$el.tagName.toLowerCase() === "input") {
             return this.$el.value.trim()
         }
+        console.log("text is undefined")
         return this.$el.textContent.trim()
     }
 
-    clear() {
-        this.html('')
-        return this
-    }
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback)
     }
@@ -60,6 +64,14 @@ class DOM {
 
     addClass(className) {
         this.$el.classList.add(className)
+    }
+
+    attr(name, value) {
+        if (value) {
+            this.$el.setAttribute(name, value)
+            return this
+        }
+        return this.$el.getAttribute(name)
     }
 
     removeClass(className) {

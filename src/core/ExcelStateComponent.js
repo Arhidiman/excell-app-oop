@@ -10,7 +10,6 @@ export class  ExcelStateComponent extends  ExcelComponent{
     }
 
     initState(initialState = {}) {
-        console.log("INIT STATE")
         this.state = {...initialState}
     }
 
